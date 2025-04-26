@@ -1,4 +1,4 @@
-Chronic Kidney Disease (CKD) Prediction and Stage Classification
+****Chronic Kidney Disease (CKD) Prediction and Stage Classification****
 
 **Project Overview**
 -This project focuses on the prediction and stage classification of Chronic Kidney Disease (CKD) using advanced machine learning techniques. The goal is to build a highly accurate, reliable, and early detection system to assist healthcare professionals in diagnosing CKD.
