@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kidney Disease Prediction Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('https://blog.labtag.com/wp-content/uploads/2021/10/0139-Diagnostic-AI-700x290px.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: #f5f5f5;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .result-box {
+            color: white;
+            border-radius: 25px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            margin: 20px auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 40px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .myclass {
+            width: 90%;
+            margin: auto;
+            font-size: 14px;
+        }
+
+
+        .btns {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px auto;
+            width: 300px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+             margin: auto auto;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btns a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .matrix {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        h2 {
+            color: #ffcc00;
+            font-size: 42px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        @media print {
+            .btns {
+                display: none;
+            }
+
+            h2 {
+                color: black !important;
+                text-shadow: none !important;
+            }
+
+            .result-box {
+                color: black !important;
+                text-shadow: none !important;
+            }
+        }
+        /* Basic Table Styling */
+ table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Kidney Disease Prediction Result</h2>
+        <div class="myclass">
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <div class="result-box" style="background-color: {% if prediction == 'No CKD' %}green{% else %}red{% endif %};">
+                        {{ prediction }}
+                    </div>
+                </div>
+            </div>
+
+            {% if prediction == 'CKD Detected' and stage is not none %}
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <div class="result-box" style="background-color: orange;">
+                        CKD Stage: {{ stage }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-md-3">
+                    <table class="table border-dark">
+                        <tbody>
+                            <tr><th>Name:</th><td>{{ name }}</td></tr>
+                            {% if gfr %}
+        <tr>
+            <th>eGFR:</th>
+            <td>{{ gfr }}</td>
+        </tr>
+        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="matrix">
+                <div>
+                    <table class="table border-dark">
+                        <tbody>
+                            <tr><th>Age:</th><td>{{ input_data['Age'] }}</td></tr>
+                            <tr><th>Serum Creatinine (SC):</th><td>{{ input_data['Serum Creatinine'] }}</td></tr>
+                            <tr><th>Albumin (AL):</th><td>{{ input_data['Albumin'] }}</td></tr>
+                            <tr><th>Blood Glucose Random (BGR):</th><td>{{ input_data['Blood Glucose Random'] }}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <table class="table border-dark">
+                        <tbody>
+                            <tr><th>Gender:</th><td>{{ gender }}</td></tr>
+                            <tr><th>Sodium (SOD):</th><td>{{ input_data['Sodium'] }}</td></tr>
+                            <tr><th>Hemoglobin (HEMO):</th><td>{{ input_data['Hemoglobin'] }}</td></tr>
+                            <tr><th>Red Blood Cell Count (RC):</th><td>{{ input_data['Red Blood Cell Count'] }}</td></tr>
+                            
+                        </tbody>
+                    </table>
+                    <center>
+                        <div class="btns">
+                            <button class="btn btn-success" onclick="window.print()">Print</button>
+                        </div>
+                    </center>
+                </div>
+                <div>
+                    <table class="table border-dark">
+                        <tbody>
+                            <tr><th>Specific Gravity (SG):</th><td>{{ input_data['Specific Gravity'] }}</td></tr>
+                            <tr><th>Hypertension (HTN):</th><td>{{ 'Yes' if input_data['Hypertension'] else 'No' }}</td></tr>
+                            <tr><th>Diabetes Mellitus (DM):</th><td>{{ 'Yes' if input_data['Diabetes Mellitus'] else 'No' }}</td></tr>
+                            <tr><th>Packed Cell Volume (PCV):</th><td>{{ input_data['Packed  Cell Volume'] }}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+</html>
